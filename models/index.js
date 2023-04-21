@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 const fs = require("fs")
 const path = require("path")
 const basename = path.basename(__filename);
-require('dotenv').config()
 const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD, {  dialect: process.env.DIALECT });
 const db = {}
 db.sequelize = sequelize

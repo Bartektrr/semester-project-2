@@ -14,8 +14,6 @@
     "express-openid-connect": "^2.15.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "msnodesqlv8": "^3.1.0",
-    "mssql": "^9.1.1",
     "sequelize": "^6.31.0"
   }
 }
