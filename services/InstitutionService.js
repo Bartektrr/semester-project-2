@@ -25,6 +25,7 @@ class InstitutionService {
     }
     
     async update(institutionId, money) {
+        console.log(institutionId, money);
         return this.Institution.update({
             Money: money,
         }, { where: {id: institutionId}})
