@@ -8,7 +8,7 @@ let institutions = db.collection('institutions')
 
 router.get('/', requiresAuth(), async function(req, res, next) {
   let list = await institutions.list();
-  res.render("institutions", {institutions: list.results, host: process.env.CYCLIC_URL});
+  res.render("institutions", {institutions: list.results});
 });
 
 router.post('/', requiresAuth(), async function(req, res, next) {

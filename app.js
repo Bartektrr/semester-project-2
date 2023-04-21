@@ -25,29 +25,34 @@ if(process.env.ENV == "DEV") {
   db.sequelize.sync({ force: false, alter: true })  
 }
 
-// const { auth } = require('express-openid-connect');
-// const config = {
-//   authRequired: false,
-//   auth0Logout: true
-// };
-// const port = process.env.PORT || 3000;
-// if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
-//   config.baseURL = `http://localhost:${port}`;
-// }
+const { auth } = require('express-openid-connect');
+const config = {
+  authRequired: false,
+  auth0Logout: true
+};
+const port = process.env.PORT || 3000;
+if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
+  config.baseURL = `http://localhost:${port}`;
+}
 
-// app.use(auth(config));
+app.use(auth(config));
 
 // Middleware to make the `user` object available for all views
-// app.use(function (req, res, next) {
-//   res.locals.user = req.oidc.user;
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.locals.user = req.oidc.user;
+  next();
+});
 
 app.use('/', indexRouter);
 if(process.env.ENV == "DEV") {
   var devInstitutionsRouter = require('./routes/dev-institutions-no-auth');
   app.use('/institutions', devInstitutionsRouter);
 }
+if(process.env.ENV == "PROD") {
+  var prodInstitutionsRouter = require('./routes/prod-institutions');
+  app.use('/institutions', prodInstitutionsRouter);
+}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -57,7 +62,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = process.env.ENV === 'DEV' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
