@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@cyclic.sh/dynamodb": "^0.0.33",
+    "chromedriver": "^112.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
@@ -16,6 +18,7 @@
     "morgan": "~1.9.1",
     "msnodesqlv8": "^3.1.0",
     "mssql": "^9.1.1",
+    "selenium-webdriver": "^4.9.0",
     "sequelize": "^6.31.0"
   }
 }

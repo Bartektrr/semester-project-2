@@ -8,7 +8,7 @@ var InstitutionService = require("../services/InstitutionService")
 var institutionService = new InstitutionService(db);
 
 router.get('/', requiresAuth(), async function(req, res, next) {
-  var institutions = await institutionService.getAll()
+  var institutions = await institutionService.getAll(req.oidc.user.email)
   res.render("institutions", {institutions: institutions});
 });
 
@@ -20,7 +20,8 @@ router.post('/', requiresAuth(), jsonParser, async function(req, res, next) {
 
 router.put('/', requiresAuth(), jsonParser, async function(req, res, next) {
   const {id, money} = req.body 
-  await institutionService.update(id, money);
+  const prevItem = await institutionService.getOne(id, req.oidc.user.email);
+  await institutionService.update(id, prevItem.Money + money);
   res.end();
 });
 

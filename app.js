@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var devInstitutionsRouter = require('./routes/dev-institutions');
 
 var app = express();
 
@@ -26,27 +25,27 @@ if(process.env.ENV == "DEV") {
   db.sequelize.sync({ force: false, alter: true })  
 }
 
-const { auth } = require('express-openid-connect');
-const config = {
-  authRequired: false,
-  auth0Logout: true
-};
-const port = process.env.PORT || 3000;
-if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
-  config.baseURL = `http://localhost:${port}`;
-}
+// const { auth } = require('express-openid-connect');
+// const config = {
+//   authRequired: false,
+//   auth0Logout: true
+// };
+// const port = process.env.PORT || 3000;
+// if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
+//   config.baseURL = `http://localhost:${port}`;
+// }
 
-app.use(auth(config));
+// app.use(auth(config));
 
 // Middleware to make the `user` object available for all views
-app.use(function (req, res, next) {
-  res.locals.user = req.oidc.user;
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.locals.user = req.oidc.user;
+//   next();
+// });
 
 app.use('/', indexRouter);
 if(process.env.ENV == "DEV") {
-  var devInstitutionsRouter = require('./routes/dev-institutions');
+  var devInstitutionsRouter = require('./routes/dev-institutions-no-auth');
   app.use('/institutions', devInstitutionsRouter);
 }
 // catch 404 and forward to error handler

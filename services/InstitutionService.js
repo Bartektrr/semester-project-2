@@ -4,9 +4,20 @@ class InstitutionService {
         this.Institution = db.Institution;
     }
 
-    async getAll() {
+    async getAll(email) {
         return this.Institution.findAll({
-            where: {}
+            where: {UserEmail: email}
+        }).catch(function (err) {
+            console.log(err);
+        })
+    }
+
+    async getOne(id, email) {
+        return this.Institution.findOne({
+            where: {
+                id: id,
+                UserEmail: email
+            }
         }).catch(function (err) {
             console.log(err);
         })
