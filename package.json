@@ -17,8 +17,8 @@
     "http-errors": "~1.6.3",
     "jest": "^29.5.0",
     "morgan": "~1.9.1",
-    "msnodesqlv8": "^3.1.0",
-    "mssql": "^9.1.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.2.3",
     "selenium-webdriver": "^4.9.0",
     "sequelize": "^6.31.0"
   }
