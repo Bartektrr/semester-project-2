@@ -8,7 +8,13 @@ let institutions = db.collection('institutions')
 
 router.get('/', requiresAuth(), async function(req, res, next) {
   let list = await institutions.list();
-  res.render("institutions", {institutions: list.results});
+  let keys = list.results.map(x => x.key);
+  let result = await Promise.all(keys.map(async (key) => {
+    return await institutions.get(key);
+  }));
+  result = result.map( x=> x.props);
+  console.log(result);
+  res.render("institutions", {institutions: result});
 });
 
 router.post('/', requiresAuth(), async function(req, res, next) {
