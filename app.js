@@ -46,6 +46,7 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 if(process.env.ENV == "DEV") {
+  var devInstitutionsRouter = require('./routes/dev-institutions');
   app.use('/institutions', devInstitutionsRouter);
 }
 // catch 404 and forward to error handler
