@@ -4,11 +4,11 @@ require("chromedriver");
 
 async function test(){ 
     let driver = await new Builder().forBrowser("chrome").build();
-    // await driver.get("http://localhost:3000/login");
-    // await driver.findElement(By.name("username")).sendKeys("admin");
-    // await driver.findElement(By.name("password")).sendKeys("0000");
-    // await driver.findElement(By.tagName("button")).click();
-    await driver.get(process.env.BASE_URL + "/institutions");   
+    await driver.get(process.env.BASE_URL + "/institutions");
+    await driver.findElement(By.name("username")).sendKeys("admin@admin.com");
+    await driver.findElement(By.name("password")).sendKeys("AbCd0000");
+    await driver.findElement(By.tagName("button")).click();
+    await driver.wait(until.urlContains("institutions"));
     const rows = await driver.findElements(By.className("row"));
     console.log(rows.length);
     await driver.findElement(By.name("addInstitution")).click();
