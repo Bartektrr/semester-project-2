@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var institutionsRouter = require('./routes/dev-institutions');
+var devInstitutionsRouter = require('./routes/dev-institutions');
 
 var app = express();
 
@@ -20,8 +20,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var db = require("./models");
-db.sequelize.sync({ force: false, alter: true })
+
+if(process.env.ENV == "DEV") {
+  var db = require("./models");
+  db.sequelize.sync({ force: false, alter: true })  
+}
 
 const { auth } = require('express-openid-connect');
 const config = {
@@ -42,8 +45,9 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/institutions', institutionsRouter);
-
+if(process.env.ENV == "DEV") {
+  app.use('/institutions', devInstitutionsRouter);
+}
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
