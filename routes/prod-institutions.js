@@ -11,7 +11,9 @@ router.get('/', requiresAuth(), async function(req, res, next) {
   let keys = list.results.map(x => x.key);
   keys = keys.filter(x=> x.includes(req.oidc.user.email));
   let result = await Promise.all(keys.map(async (key) => {
-    return await institutions.get(key);
+    const institution = await institutions.get(key);
+    institution.props.id = key;
+    return institution;
   }));
   result = result.map( x=> x.props);
   console.log(result);
@@ -40,6 +42,7 @@ router.put('/', requiresAuth(), async function(req, res, next) {
 
 router.delete('/', requiresAuth(), async function(req, res, next) {
   const {id} = req.body 
+  console.log(id);
   await institutions.delete(id);
   res.end();
 });
