@@ -1,5 +1,7 @@
 async function updateInstitution(url, id) {
     let money = parseFloat(prompt("How much money you donated?"))
+    if(money === null)
+        return;
     await fetch(url, {
         method: 'PUT',
         headers: {

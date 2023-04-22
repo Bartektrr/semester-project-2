@@ -34,8 +34,9 @@ router.post('/', requiresAuth(), async function(req, res, next) {
 
 router.put('/', requiresAuth(), async function(req, res, next) {
   const {id, money} = req.body 
+  const institution = await institutions.get(id);
   await institutions.set(id, {
-    Money: money
+    Money: institution.props.Money + money
   });
   res.end();
 });
